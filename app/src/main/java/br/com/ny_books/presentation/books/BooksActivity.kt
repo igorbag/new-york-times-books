@@ -2,10 +2,10 @@ package br.com.ny_books.presentation.books
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.ny_books.R
+import br.com.ny_books.data.repository.BooksApiDataSource
 import br.com.ny_books.presentation.base.BaseActivity
 import br.com.ny_books.presentation.details.BookDetailsActivity
 import kotlinx.android.synthetic.main.activity_books_main.*
@@ -20,12 +20,10 @@ class BooksActivity : BaseActivity() {
 
         setUpToolbar(toolbarMain, R.string.books_title)
 
-        val viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(BooksViewModel::class.java)
+        val viewModel: BooksViewModel = BooksViewModel.ViewModelFactory(BooksApiDataSource())
+            .create(BooksViewModel::class.java)
 
-        viewModel.booksLiveData.observe(this) {
+        viewModel.booksLiveData.observe(this, Observer {
             it?.let { books ->
                 with(recyclerBooks) {
                     layoutManager =
@@ -37,20 +35,22 @@ class BooksActivity : BaseActivity() {
                             book.title,
                             book.description
                         )
-                        startActivity(intent)
+                        this@BooksActivity.startActivity(intent)
                     }
                 }
             }
-        }
+        })
 
         viewModel.viewFlipperLiveData.observe(this, Observer {
             it?.let { viewFlipper ->
                 viewFlipperBooks.displayedChild = viewFlipper.first
+
                 viewFlipper.second?.let { errorMessageResId ->
                     textViewError.text = getString(errorMessageResId)
                 }
             }
         })
+
         viewModel.getBooks()
     }
 }
