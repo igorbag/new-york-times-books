@@ -13,9 +13,9 @@ data class BookDetailsResponse(
     @Json(name = "description")
     val description: String
 ) {
-//    fun getBookModel() = Book(
-//        title = this.title,
-//        author = this.author,
-//        description = this.description
-//    )
+    fun getBookModel() = Book(
+        title = this.title,
+        author = this.author,
+        description = this.description
+    )
 }

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_book.view.*
 
 class BooksAdapter(
     val books: List<Book>,
-    val onItemClickListener: (book: Book) -> Unit
+    private val onItemClickListener: (book: Book) -> Unit
 ) : RecyclerView.Adapter<BooksAdapter.BooksViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BooksViewHolder {
