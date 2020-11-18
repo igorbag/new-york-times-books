@@ -3,14 +3,17 @@ package br.com.ny_books.presentation.details
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import br.com.ny_books.R
+import br.com.ny_books.presentation.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_book_details.*
+import kotlinx.android.synthetic.main.include_toolbar.*
 
-class BookDetailsActivity : AppCompatActivity() {
+class BookDetailsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_details)
+
+        setUpToolbar(toolbarMain, R.string.book_details_title)
 
         bookDetailTitle.text = intent.getStringExtra(EXTRA_TITLE)
         bookDescription.text = intent.getStringExtra(EXTRA_DESCRIPTION)
